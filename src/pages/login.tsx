@@ -1,28 +1,32 @@
-import StoreContext from "@/store/StoreContext";
+import { loginAction } from "../store/features/auth/authSlice";
+import { notLoading } from "../store/features/loading/loadingSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
     Card,
     Input,
-    Checkbox,
     Button,
     Typography,
 } from "@material-tailwind/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function login() {
 
-    const context = useContext(StoreContext)
+    const auth = useAppSelector((state) => state.auth.value)
+    const dispatch = useAppDispatch()
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     useEffect(() => {
-        if (context?.store.auth.authed) router.push('/')
-    }, [context?.store.auth.authed])
+        if (auth.authed) router.push('/')
+    }, [auth.authed])
 
-    function handleLogin() {
-        context?.loginAction({ name: 'name', email, password })
+    function handleLogin(e: FormEvent) {
+        e.preventDefault()
+        dispatch(loginAction({ email, password }))
+        dispatch(notLoading())
     }
 
     return (
@@ -33,12 +37,12 @@ export default function login() {
             <Typography color="gray" className="mt-1 font-normal">
                 Enter your email and password.
             </Typography>
-            <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+            <form onSubmit={handleLogin} className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-4 flex flex-col gap-6">
                     <Input value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="none" size="lg" label="Email" />
                     <Input value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="none" type="password" size="lg" label="Password" />
                 </div>
-                <Button className="mt-6" fullWidth onClick={handleLogin}>
+                <Button type="submit" className="mt-6" fullWidth>
                     Log In
                 </Button>
                 <Typography color="gray" className="mt-4 text-center font-normal">

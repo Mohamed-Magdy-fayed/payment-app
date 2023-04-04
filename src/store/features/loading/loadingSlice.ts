@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../index'
 
 export interface LoadingState {
     value: boolean
@@ -28,7 +27,5 @@ export const loadingSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { isLoading, notLoading, setLoading } = loadingSlice.actions
-
-export const selectCount = (state: RootState) => state.loading.value
 
 export default loadingSlice.reducer

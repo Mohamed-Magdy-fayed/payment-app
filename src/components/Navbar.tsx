@@ -25,12 +25,18 @@ import {
     RocketLaunchIcon,
     Bars2Icon,
 } from "@heroicons/react/24/outline";
+import { useAppDispatch } from "@/store/hooks";
+import { logoutAction } from "@/store/features/auth/authSlice";
 
 function ProfileMenu() {
+    const dispatch = useAppDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const closeMenu = () => setIsMenuOpen(false);
 
-    function handleLogout() {
+    const handleLogout = () => {
+        console.log('logout');
+        
+        dispatch(logoutAction())
     }
 
     const profileMenuItems = [
@@ -53,7 +59,6 @@ function ProfileMenu() {
         {
             label: "Sign Out",
             icon: PowerIcon,
-            action: handleLogout()
         },
     ];
 
