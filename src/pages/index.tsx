@@ -2,6 +2,7 @@ import Footer from "@/components/Footer";
 import Loading from "@/components/Loading";
 import Main from "@/components/Main";
 import ComplexNavbar from "@/components/Navbar";
+import useAuth from "@/hooks/useAuth";
 import clientPromise from "@/lib/mongodb";
 import { useAppSelector } from "@/store/hooks";
 import { InferGetServerSidePropsType } from "next";
@@ -10,15 +11,12 @@ import { useEffect } from "react";
 
 export async function getServerSideProps(context: any) {
   try {
-    await clientPromise
-    // `await clientPromise` will use the default database passed in the MONGODB_URI
-    // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
-    //
-    // `const client = await clientPromise`
-    // `const db = client.db("myDatabase")`
-    //
-    // Then you can execute queries against your database like so:
-    // db.find({}) or any of the MongoDB Node Driver commands
+    const client = await clientPromise
+    const Users = client.db('payment-app').collection('users')
+    const Auth = client.db('payment-app').collection('auth')
+    Users.createIndex({ email: 1 }, { unique: true })
+    Auth.createIndex({ userID: 1 }, { unique: true })
+    Auth.createIndex({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 })
 
     return {
       props: { isConnected: true },
@@ -35,11 +33,11 @@ export default function Home({ isConnected }: InferGetServerSidePropsType<typeof
   const loading = useAppSelector((state) => state.loading.value)
   const auth = useAppSelector((state) => state.auth.value)
   const router = useRouter()
+  const authChecked = useAuth()
 
   useEffect(() => {
-    console.log(loading)
-    if (!auth.authed) router.push('/login')
-  }, [auth.authed])
+    if (!authChecked) return
+  }, [authChecked])
 
   if (loading) return <Loading />
 

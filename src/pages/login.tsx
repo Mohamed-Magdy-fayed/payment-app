@@ -1,3 +1,4 @@
+import useAuth from "@/hooks/useAuth";
 import { loginAction } from "../store/features/auth/authSlice";
 import { notLoading } from "../store/features/loading/loadingSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -10,6 +11,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
+import { toast } from 'react-toastify'
 
 export default function login() {
 
@@ -18,15 +20,34 @@ export default function login() {
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const authChecked = useAuth()
 
     useEffect(() => {
-        if (auth.authed) router.push('/')
-    }, [auth.authed])
+        if (!authChecked) return
+    }, [authChecked])
 
     function handleLogin(e: FormEvent) {
         e.preventDefault()
-        dispatch(loginAction({ email, password }))
-        dispatch(notLoading())
+
+        fetch('/api/users/login', {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then(async res => {
+                const data = await res.json()
+                console.log('data', data)
+                if (data.error) return toast.error(data.error, { toastId: 'data.error' })
+                const { name, email } = data.user
+                dispatch(loginAction({ name, email }))
+                dispatch(notLoading())
+                toast.success(`Welcome ${name}`, { toastId: `Welcome ${name}` })
+            })
+            .catch(e => {
+                toast.error(e.message, { toastId: 'error' })
+            })
     }
 
     return (

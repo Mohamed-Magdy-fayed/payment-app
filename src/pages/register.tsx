@@ -1,3 +1,4 @@
+import useAuth from "@/hooks/useAuth";
 import {
     Card,
     Input,
@@ -6,8 +7,15 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function register() {
+    const authChecked = useAuth()
+
+    useEffect(() => {
+        if (!authChecked) return
+    }, [authChecked])
+
     return (
         <Card color="transparent" shadow={false} className="grid place-content-center h-screen">
             <Typography variant="h4" color="blue-gray">

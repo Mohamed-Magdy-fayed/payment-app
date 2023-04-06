@@ -1,4 +1,5 @@
-import { MongoClient } from 'mongodb'
+import { Collection, Document, MongoClient, ObjectId } from 'mongodb'
+import jwt from 'jsonwebtoken'
 
 if (!process.env.MONGO_URI) {
     throw new Error('Invalid/Missing environment variable: "MONGO_URI"')
@@ -26,6 +27,11 @@ if (process.env.NODE_ENV === 'development') {
     // In production mode, it's best to not use a global variable.
     client = new MongoClient(uri, options)
     clientPromise = client.connect()
+}
+
+export async function checkAuth(token: string, Users: Collection<Document>) {
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!)
+    return await Users.findOne({ _id: new ObjectId(decoded.id) }, { projection: { password: 0 } })
 }
 
 // Export a module-scoped MongoClient promise. By doing this in a
