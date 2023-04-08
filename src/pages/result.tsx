@@ -9,13 +9,17 @@ import Loading from '@/components/Loading'
 import { useEffect } from 'react'
 import useAuth from '@/hooks/useAuth'
 import { useAppSelector } from '@/store/hooks'
+import useSWR from 'swr'
 
-export async function getServerSideProps({ query }: { query: { session_id: string } }) {
-    const data = await fetchGetJSON(`${process.env.HOST_URL}/api/checkout_sessions/${query.session_id}`)
-    return { props: { data } }
-}
+export default function result() {
 
-export default function result({ data }: any) {
+    const router = useRouter()
+    const { data, error } = useSWR(
+        router.query.session_id
+            ? `/api/checkout_sessions/${router.query.session_id}`
+            : null,
+        fetchGetJSON
+    )
 
     const loading = useAppSelector((state) => state.loading.value)
     const authChecked = useAuth()
@@ -24,8 +28,8 @@ export default function result({ data }: any) {
         if (!authChecked) return
     }, [authChecked])
 
-    const router = useRouter()
-    if (!data) return <div>failed to load</div>
+    if (error) return <div>failed to load</div>
+    if (!data) return <Loading />
     if (loading) return <Loading />
 
     return (

@@ -27,8 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 if (!user) return res.status(401).json({ error: 'invalid email!' })
                 if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ error: 'incorrect Password' })
 
-                const session = await Auth.findOne({ "userID": user._id }, { projection: { password: 0 } })
-                if (session) return res.status(401).json({ error: 'user already logged in!' })
+                const session = await Auth.findOneAndDelete({ "userID": user._id })
 
                 const token = generateToken(user._id)
                 await Auth.insertOne({ token, userID: user._id, createdAt: new Date() })
