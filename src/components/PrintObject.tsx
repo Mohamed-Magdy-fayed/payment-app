@@ -1,4 +1,4 @@
-import { formatAmountForDisplay } from '@/utils/stripeHelpers'
+import { formatAmountForDisplay, formatAmountFromStripe } from '@/utils/stripeHelpers'
 import { Typography } from '@material-tailwind/react'
 import React from 'react'
 
@@ -7,7 +7,8 @@ type Props = {
 }
 
 export default function PrintObject({ content }: Props) {
+    const amount = formatAmountForDisplay(formatAmountFromStripe(content.amount_subtotal, content.currency), content.currency)
     return <pre>
-        <Typography>Thanks for donating {formatAmountForDisplay(content.amount_subtotal, content.currency)}</Typography>
+        <Typography>Thanks for donating {amount}</Typography>
     </pre>
 }

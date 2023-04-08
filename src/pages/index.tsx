@@ -6,8 +6,6 @@ import ComplexNavbar from "@/components/Navbar";
 import useAuth from "@/hooks/useAuth";
 import clientPromise from "@/lib/mongodb";
 import { useAppSelector } from "@/store/hooks";
-import { InferGetServerSidePropsType } from "next";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export async function getServerSideProps(context: any) {
@@ -30,10 +28,8 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-export default function Home({ isConnected }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home() {
   const loading = useAppSelector((state) => state.loading.value)
-  const auth = useAppSelector((state) => state.auth.value)
-  const router = useRouter()
   const authChecked = useAuth()
 
   useEffect(() => {

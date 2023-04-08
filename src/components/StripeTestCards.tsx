@@ -20,7 +20,7 @@ export default function StripeTestCards() {
                     <span>
                         e.g.{' '}
                     </span>
-                    {testCardNumber.map(num => (<span>{num}</span>))}</Typography>
+                    {testCardNumber.map((num, i) => (<span key={i}>{num}</span>))}</Typography>
             </div>
         </pre>
     )

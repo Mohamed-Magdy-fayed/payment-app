@@ -20,6 +20,7 @@ export default function login() {
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
     const authChecked = useAuth()
 
     useEffect(() => {
@@ -28,7 +29,7 @@ export default function login() {
 
     function handleLogin(e: FormEvent) {
         e.preventDefault()
-
+        setLoading(true)
         fetch('/api/users/login', {
             method: 'post',
             headers: {
@@ -39,7 +40,10 @@ export default function login() {
             .then(async res => {
                 const data = await res.json()
                 console.log('data', data)
-                if (data.error) return toast.error(data.error, { toastId: 'data.error' })
+                if (data.error) {
+                    setLoading(false)
+                    return toast.error(data.error, { toastId: 'data.error' })
+                }
                 const { name, email } = data.user
                 dispatch(loginAction({ name, email }))
                 dispatch(notLoading())
@@ -48,6 +52,7 @@ export default function login() {
             })
             .catch(e => {
                 toast.error(e.message, { toastId: 'error' })
+                setLoading(false)
             })
     }
 
@@ -64,7 +69,7 @@ export default function login() {
                     <Input value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="none" size="lg" label="Email" />
                     <Input value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="none" type="password" size="lg" label="Password" />
                 </div>
-                <Button type="submit" className="mt-6" fullWidth>
+                <Button disabled={loading} type="submit" className="mt-6" fullWidth>
                     Log In
                 </Button>
                 <Typography color="gray" className="mt-4 text-center font-normal">
