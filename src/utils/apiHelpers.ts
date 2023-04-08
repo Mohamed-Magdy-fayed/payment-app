@@ -1,4 +1,6 @@
 export async function fetchGetJSON(url: string) {
+  console.log(url);
+  
   try {
     const data = await fetch(url, { cache: 'no-cache', }).then((res) => res.json())
     return data

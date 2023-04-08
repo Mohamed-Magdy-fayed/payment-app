@@ -4,6 +4,3 @@ export const CURRENCY = 'usd'
 export const MIN_AMOUNT = 10.0
 export const MAX_AMOUNT = 5000.0
 export const AMOUNT_STEP = 5.0
-export const HOST_URL = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : 'https://payment-app-blond.vercel.app/'

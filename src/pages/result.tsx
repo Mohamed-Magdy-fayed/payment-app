@@ -5,17 +5,13 @@ import Main from '@/components/Main'
 import Footer from '@/components/Footer'
 import { Button, Typography } from '@material-tailwind/react'
 import { useRouter } from 'next/router'
-import { HOST_URL } from '@/config'
 import Loading from '@/components/Loading'
 import { useEffect } from 'react'
 import useAuth from '@/hooks/useAuth'
 import { useAppSelector } from '@/store/hooks'
 
 export async function getServerSideProps({ query }: { query: { session_id: string } }) {
-    const data = await fetchGetJSON(
-        query.session_id
-            ? `${HOST_URL}/api/checkout_sessions/${query.session_id}`
-            : '')
+    const data = await fetchGetJSON(`${process.env.HOST_URL}/api/checkout_sessions/${query.session_id}`)
     return { props: { data } }
 }
 
