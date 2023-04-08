@@ -29,6 +29,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutAction } from "@/store/features/auth/authSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 function ProfileMenu() {
     const dispatch = useAppDispatch()
@@ -263,8 +264,9 @@ export default function ComplexNavbar() {
             <div className="relative mx-auto flex items-center text-blue-gray-900">
                 <Link
                     href="/"
-                    className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
+                    className="mr-4 ml-2 cursor-pointer py-1.5 font-medium flex gap-2"
                 >
+                    <Image src='/logo.png' alt='logo' width={20} height={20} />
                     <Typography>Payment App</Typography>
                 </Link>
                 <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
