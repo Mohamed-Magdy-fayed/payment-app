@@ -1,3 +1,4 @@
+import CheckoutForm from "@/components/CheckoutForm";
 import Footer from "@/components/Footer";
 import Loading from "@/components/Loading";
 import Main from "@/components/Main";
@@ -44,7 +45,9 @@ export default function Home({ isConnected }: InferGetServerSidePropsType<typeof
   return (
     <div className="min-h-screen flex flex-col items-center">
       <ComplexNavbar />
-      <Main isConnected={isConnected} />
+      <Main>
+        <CheckoutForm />
+      </Main>
       <Footer />
     </div>
   )

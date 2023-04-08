@@ -12,6 +12,8 @@
     "@heroicons/react": "^2.0.17",
     "@material-tailwind/react": "^1.4.2",
     "@reduxjs/toolkit": "^1.9.3",
+    "@stripe/react-stripe-js": "1.13.0",
+    "@stripe/stripe-js": "1.42.0",
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "18.15.11",
@@ -27,6 +29,8 @@
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
     "react-toastify": "^9.1.2",
+    "stripe": "10.14.0",
+    "swr": "^2.1.2",
     "typescript": "5.0.3"
   },
   "devDependencies": {

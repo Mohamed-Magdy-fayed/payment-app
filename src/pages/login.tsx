@@ -44,6 +44,7 @@ export default function login() {
                 dispatch(loginAction({ name, email }))
                 dispatch(notLoading())
                 toast.success(`Welcome ${name}`, { toastId: `Welcome ${name}` })
+                router.push('/')
             })
             .catch(e => {
                 toast.error(e.message, { toastId: 'error' })
