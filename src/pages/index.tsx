@@ -6,9 +6,10 @@ import ComplexNavbar from "@/components/Navbar";
 import useAuth from "@/hooks/useAuth";
 import clientPromise from "@/lib/mongodb";
 import { useAppSelector } from "@/store/hooks";
+import { Typography } from "@material-tailwind/react";
 import { useEffect } from "react";
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps() {
   try {
     const client = await clientPromise
     const Users = client.db('payment-app').collection('users')
@@ -42,6 +43,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col items-center">
       <ComplexNavbar />
       <Main>
+        <Typography variant='h2'>Donate with Stripe</Typography>
         <CheckoutForm />
       </Main>
       <Footer />

@@ -1,7 +1,4 @@
 import useAuth from "@/hooks/useAuth";
-import { loginAction } from "@/store/features/auth/authSlice";
-import { notLoading } from "@/store/features/loading/loadingSlice";
-import { useAppDispatch } from "@/store/hooks";
 import {
     Card,
     Input,
@@ -17,7 +14,6 @@ import { toast } from "react-toastify";
 export default function register() {
     const authChecked = useAuth()
     const router = useRouter()
-    const dispatch = useAppDispatch()
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -35,7 +31,6 @@ export default function register() {
         })
             .then(async res => {
                 const data = await res.json()
-                console.log('data', data)
                 if (data.error) {
                     setLoading(false)
                     return toast.error(data.error, { toastId: 'data.error' })

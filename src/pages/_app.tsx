@@ -6,7 +6,6 @@ import { store } from '../store/index';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
-const iconUrl = '../../public/logo.png'
 
 export default function App({ Component, pageProps }: AppProps) {
 

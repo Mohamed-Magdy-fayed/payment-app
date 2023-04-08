@@ -1,46 +1,49 @@
 import { Typography } from "@material-tailwind/react";
-const logo = '../../public/next.svg'
 
 export default function Footer() {
     return (
         <footer className="w-full bg-white p-8">
             <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-white text-center md:justify-between">
-                <img src='/logo.png' alt="logo-ct" className="w-16" />
+                <img src='/logo.png' alt="logo-ct" className="w-16 h-auto" />
                 <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
                     <li>
                         <Typography
                             as="a"
-                            href="#"
+                            href="https://github.com/Mohamed-Magdy-fayed"
+                            target='_blank'
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
                         >
-                            About Us
+                            Github Account
                         </Typography>
                     </li>
                     <li>
                         <Typography
                             as="a"
-                            href="#"
+                            href="https://megz-portfolio.onrender.com"
+                            target='_blank'
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
                         >
-                            License
+                            Portfolio
                         </Typography>
                     </li>
                     <li>
                         <Typography
                             as="a"
-                            href="#"
+                            href="https://www.linkedin.com/in/mohamed-magdy-fayed"
+                            target='_blank'
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
                         >
-                            Contribute
+                            LinkedIn
                         </Typography>
                     </li>
                     <li>
                         <Typography
                             as="a"
-                            href="#"
+                            href="https://wa.me/201123862218"
+                            target='_blank'
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
                         >

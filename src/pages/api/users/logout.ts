@@ -1,8 +1,6 @@
 import clientPromise, { checkAuth } from "@/lib/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
-import jwt from 'jsonwebtoken'
-import { ObjectId } from "mongodb";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const client = await clientPromise

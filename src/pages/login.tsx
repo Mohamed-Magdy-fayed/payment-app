@@ -14,8 +14,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { toast } from 'react-toastify'
 
 export default function login() {
-
-    const auth = useAppSelector((state) => state.auth.value)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const [email, setEmail] = useState('')
@@ -39,7 +37,6 @@ export default function login() {
         })
             .then(async res => {
                 const data = await res.json()
-                console.log('data', data)
                 if (data.error) {
                     setLoading(false)
                     return toast.error(data.error, { toastId: 'data.error' })

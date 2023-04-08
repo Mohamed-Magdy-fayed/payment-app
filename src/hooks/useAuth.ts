@@ -3,7 +3,6 @@ import { setLoading } from '@/store/features/loading/loadingSlice'
 import { useAppDispatch } from '@/store/hooks'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 
 export default function useAuth() {
     const dispatch = useAppDispatch()
@@ -46,36 +45,6 @@ export default function useAuth() {
                 const { name, email } = data.user
                 isAuthed && dispatch(loginAction({ name, email }))
             })
-        // .then(async res => {
-        //     const data = await res.json()
-        //     console.log(data)
-        //     if (router.route !== '/login' && router.route !== '/register') {
-        //         if (data.message === 'no token') {
-        //             if (!routerPushed) router.push('/login'); setRouterPushed(true)
-        //             dispatch(setLoading(false))
-        //         } else {
-        //             dispatch(setLoading(false))
-        //         }
-        //     } else {
-        //         if (data.message === 'no token') return dispatch(setLoading(false))
-        //         dispatch(loginAction({ email: data.email, password: '' }))
-        //         dispatch(setLoading(false))
-        //         if (!routerPushed) router.push('/'); setRouterPushed(true)
-        //     }
-        // })
-        // .catch(e => {
-        //     console.log(e)
-        //     console.log(router.route)
-        //     if (router.route !== '/login' && router.route !== '/register') {
-        //         if (!routerPushed) router.push('/login'); setRouterPushed(true)
-        //         toast.error(`Please login to continue`, { toastId: 'error' })
-        //         dispatch(logoutAction())
-        //         dispatch(setLoading(false))
-        //     } else {
-        //         dispatch(logoutAction())
-        //         dispatch(setLoading(false))
-        //     }
-        // })
         setAuthChecked(true)
     }, [])
 

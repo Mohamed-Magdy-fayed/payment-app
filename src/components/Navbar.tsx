@@ -8,22 +8,19 @@ import {
     MenuHandler,
     MenuList,
     MenuItem,
-    Avatar,
     Card,
     IconButton,
 } from "@material-tailwind/react";
 import {
-    CubeTransparentIcon,
     UserCircleIcon,
     CodeBracketSquareIcon,
-    Square3Stack3DIcon,
     ChevronDownIcon,
     Cog6ToothIcon,
-    InboxArrowDownIcon,
-    LifebuoyIcon,
     PowerIcon,
     RocketLaunchIcon,
     Bars2Icon,
+    LinkIcon,
+    ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutAction } from "@/store/features/auth/authSlice";
@@ -36,7 +33,6 @@ function ProfileMenu() {
     const auth = useAppSelector((state) => state.auth.value)
     const router = useRouter()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const closeMenu = () => setIsMenuOpen(false);
 
     const handleLogout = () => {
         fetch('/api/users/logout', {
@@ -45,7 +41,6 @@ function ProfileMenu() {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 if (data.loggedOutUser) {
                     dispatch(logoutAction())
                     return router.push('/login')
@@ -57,22 +52,20 @@ function ProfileMenu() {
         {
             label: "My Profile",
             icon: UserCircleIcon,
+            handler: () => router.push('/profile'),
+            url: '/profile',
         },
         {
             label: "Edit Profile",
             icon: Cog6ToothIcon,
-        },
-        {
-            label: "Inbox",
-            icon: InboxArrowDownIcon,
-        },
-        {
-            label: "Help",
-            icon: LifebuoyIcon,
+            handler: () => router.push('/profile'),
+            url: '/profile'
         },
         {
             label: "Sign Out",
             icon: PowerIcon,
+            handler: () => handleLogout(),
+            url: '/profile'
         },
     ];
 
@@ -93,12 +86,12 @@ function ProfileMenu() {
                 </Button>
             </MenuHandler>
             <MenuList className="p-1">
-                {profileMenuItems.map(({ label, icon }, key) => {
+                {profileMenuItems.map(({ label, icon, handler }, key) => {
                     const isLastItem = key === profileMenuItems.length - 1;
                     return (
                         <MenuItem
                             key={label}
-                            onClick={() => isLastItem ? handleLogout() : closeMenu()}
+                            onClick={() => handler()}
                             className={`flex items-center gap-2 rounded ${isLastItem
                                 ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                                 : ""
@@ -127,19 +120,19 @@ function ProfileMenu() {
 // nav list menu
 const navListMenuItems = [
     {
-        title: "@material-tailwind/html",
-        description:
-            "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
+        title: "Next.js documentation",
+        description: "If you're new to Next.js, we recommend starting with the learn course. The interactive course with quizzes will guide you through everything you need to know to use Next.js.",
+        url: 'https://nextjs.org/docs'
     },
     {
-        title: "@material-tailwind/react",
-        description:
-            "Learn how to use @material-tailwind/react, packed with rich components for React.",
+        title: "Stripe documentation",
+        description: 'Explore our guides and examples to integrate Stripe.',
+        url: 'https://stripe.com/docs'
     },
     {
-        title: "Material Tailwind PRO",
-        description:
-            "A complete set of UI Elements for building faster websites in less time.",
+        title: "MongoDB documentation",
+        description: "Find the guides, samples, and references you need to use the database, visualize data, and build applications on the MongoDB data platform.",
+        url: 'https://www.mongodb.com/docs/'
     },
 ];
 
@@ -151,8 +144,8 @@ function NavListMenu() {
         onMouseLeave: () => setIsMenuOpen(false),
     };
 
-    const renderItems = navListMenuItems.map(({ title, description }) => (
-        <a href="#" key={title}>
+    const renderItems = navListMenuItems.map(({ title, description, url }) => (
+        <Link href={url} key={title} target='_blank'>
             <MenuItem>
                 <Typography variant="h6" color="blue-gray" className="mb-1">
                     {title}
@@ -161,7 +154,7 @@ function NavListMenu() {
                     {description}
                 </Typography>
             </MenuItem>
-        </a>
+        </Link>
     ));
 
     return (
@@ -173,7 +166,7 @@ function NavListMenu() {
                             {...triggers}
                             className="hidden items-center gap-2 text-blue-gray-900 lg:flex lg:rounded-full"
                         >
-                            <Square3Stack3DIcon className="h-[18px] w-[18px]" /> Pages{" "}
+                            <CodeBracketSquareIcon className="h-[18px] w-[18px]" /> Documentations{" "}
                             <ChevronDownIcon
                                 strokeWidth={2}
                                 className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""
@@ -200,7 +193,7 @@ function NavListMenu() {
                 </MenuList>
             </Menu>
             <MenuItem className="flex items-center gap-2 text-blue-gray-900 lg:hidden">
-                <Square3Stack3DIcon className="h-[18px] w-[18px]" /> Pages{" "}
+                <CodeBracketSquareIcon className="h-[18px] w-[18px]" /> Documentations{" "}
             </MenuItem>
             <ul className="ml-6 flex w-full flex-col gap-1 lg:hidden">
                 {renderItems}
@@ -212,16 +205,19 @@ function NavListMenu() {
 // nav list component
 const navListItems = [
     {
-        label: "Account",
+        label: "Github Account",
         icon: UserCircleIcon,
+        url: 'https://github.com/Mohamed-Magdy-fayed'
     },
     {
-        label: "Blocks",
-        icon: CubeTransparentIcon,
+        label: "Portfolio",
+        icon: LinkIcon,
+        url: 'https://megz-portfolio.onrender.com/'
     },
     {
-        label: "Docs",
-        icon: CodeBracketSquareIcon,
+        label: "LinkedIn",
+        icon: ArrowLeftOnRectangleIcon,
+        url: 'https://www.linkedin.com/in/mohamed-magdy-fayed/'
     },
 ];
 
@@ -229,11 +225,12 @@ function NavList() {
     return (
         <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
             <NavListMenu />
-            {navListItems.map(({ label, icon }, key) => (
+            {navListItems.map(({ label, icon, url }) => (
                 <Typography
                     key={label}
                     as="a"
-                    href="#"
+                    href={url}
+                    target='_blank'
                     variant="small"
                     color="blue-gray"
                     className="font-normal"
